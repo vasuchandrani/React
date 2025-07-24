@@ -1,0 +1,440 @@
+-> React 
+    - JS library for creating UI
+
+Components
+Props
+State
+
+Component : individual pieces held in UI.
+
+JSX - in react your code is written in JSX.
+
+JSX is the way of writting HTML in JS.
+    - not pure JS or pure HTML
+
+JSX - javaScript Extension Syntax
+    - it lets us write HTML directly inside JS.
+
+JSX is not real JS, it internally convert into JS by a tool called Babel.x
+
+<!--  -->
+
+Component is reusable & independent piece of code.
+
+
+-> Writing Markup in JSX.
+
+3 Rules
+
+1) Return a single root element 
+2) Close all the tags
+3) camelCase most of the things
+
+
+in JSX if you want to give html attribute "class" in any tag then you need to write "className" in JSX because class is the keyword in Java.
+
+
+-> React Fragment : 
+
+    if we want to return multiple components then we need to wrap those in a "div" but if we don't want to make a "extra div" then we wrap them in "blank openning and closing tag".
+
+Exp :
+    <>
+        <Title />
+        <Title />
+        <Title />
+    </>
+
+
+JSX with Curly Braces { javascript }
+
+-> where we use Curly braces in JSX then that code inside the braces treate as pure JS, and we don't need to write JSX in it.
+
+function Multiply() {
+    return (
+        <div>
+            <p>2 * 2 = {2 * 2}</p>
+        </div>            |
+    );                    |
+}                  This is pure JS(4)
+
+
+-> How to Structure Our Components ?? 
+
+- When there is a component of Product and we want to show/render that component more than one time in app.jsx then we don't directly import the product component,
+    - Firstly we make a Product-Tab component and import the Product component in it and render the product in product-tab component as many time we want, 
+        - Then we import the Product-Tab component in the app.jsx and render that Tab in app.jsx.
+
+
+-> How to give Styling ?? 
+
+- We can make the CSS file for each Component and import that file in the JSX file.
+
+WEBPACK -> it make possible import and export functionality in React.
+
+--> default export 
+export default Title;
+
+For import the default export component..,
+import Title from "./Title";
+
+
+--> Named export
+export { Title, description, etc...};
+
+For import the Named export component..,
+import { Title } from "./Title";
+
+
+-> React Props
+
+    - Props are the information that you pass to a JSX tag,
+        - means now our component shows the same information, but if we want to customize it, 
+            - means we want to render 4 products but diff product, "diff info" in all four then we need to "pass Props" in the "TAG"
+    
+
+-> Props can be accessed as same as any argument in function.
+
+- To pass the props in TAGS
+
+function ProductTab() {
+
+    return (                (For pass a num. wrap it in the curly braces)
+        <>                                  |
+            <Product title="Phone" price={30000} />
+            <Product title="Laptop" price={40000} />
+            <Product title="Pen" price={20000} />
+        </>                                             
+    )                                         
+}
+
+- To access the props in component.jsx file :
+
+            (pass the whole props object)
+Method-1:          |
+function Product(props) {
+    return (
+        <div>
+            <h3>Product Title: {props.title}</h3>
+            <h4>Price: {props.price}</h4>
+        </div>
+    );
+}
+            (destructure it here)
+Method-2:           |
+function Product({title, price = 1}) {
+    return (                    |
+        <div>            (default value)
+            <h3>Product Title: {title}</h3>
+            <h4>Price: {price}</h4>
+        </div>
+    );
+}
+
+
+-> Pass and render array : 
+
+Method-1 : Pre-wrap the elements in <li> tag.
+function ProductTab() {
+    let features = [<li>"hi-tech"</li>, <li>"fast"</li>, <li>"durable"</li>];
+
+    return (                (For pass a num. wrap it in the curly braces)
+        <>                                  |
+            <Product title="Phone" price={30000} />
+            <Product title="Laptop" price={40000} />
+            <Product title="Pen" price={20000} />
+        </>                                             
+    )                                         
+}
+
+function Product({title, price = 1, features}) {
+    return (                    
+        <div>        
+            <h4>{features}</h4>
+        </div>      |
+    );      (it will print those elements of array in list form)
+}
+
+
+Method-2 : Map the array before print/render it.
+function ProductTab() {
+    let features = ["hi-tech", "fast", "durable"];
+
+    return (                (For pass a num. wrap it in the curly braces)
+        <>                                  |
+            <Product title="Phone" price={30000} />
+            <Product title="Laptop" price={40000} />
+            <Product title="Pen" price={20000} />
+        </>                                             
+    )                                         
+}
+
+function Product({title, price = 1, features}) {
+
+    // Map the array here 
+    const list = features.map((feature) => <li>{feature}</li>);
+
+    return (                    
+        <div>        
+            <h4>{list}</h4>
+        </div>      |
+    );      (it will print those elements of array in list form)
+}
+<!-- we can write the whole function in return -->
+<!-- function Product({title, price = 1, features}) {
+
+    // Map the array here 
+    const list = features.map((feature) => <li>{feature}</li>);
+
+    return (                    
+        <div>        
+            <p>
+                const list = features.map((feature) => <li>{feature}</li>);
+            </p>
+        </div>      
+    );      
+}
+
+
+-> Conditionals
+    - Adding elements on the basis of some condition
+
+- If we want to give discount of 5% if price is > 30000.
+
+Metho-1:
+function ProductTab() {
+
+    return (                
+        <>                                  
+            <Product title="Phone" price={30000} />
+            <Product title="Laptop" price={40000} />
+            <Product title="Pen" price={20000} />
+        </>                                             
+    )                                         
+}
+
+function Product({title, price = 1}) {
+ 
+    if (price > 30000) {
+        return (                    
+        <div>            
+                <h3>Product Title: {title}</h3>
+                <h4>Price: {price}</h4>
+                <p>Discount of 5%</p>
+            </div>          |
+        );              (by if else)
+    }
+    else {
+        return (                    
+        <div>            
+                <h3>Product Title: {title}</h3>
+                <h4>Price: {price}</h4>
+            </div>
+        );
+    }
+}
+
+
+Method-2:
+function ProductTab() {
+
+    return (                
+        <>                                  
+            <Product title="Phone" price={30000} />
+            <Product title="Laptop" price={40000} />
+            <Product title="Pen" price={20000} />
+        </>                                             
+    )                                         
+}
+
+function Product({title, price = 1}) {
+ 
+    let isDiscount = price > 30000 ? "Discount : 5%" : "";
+
+    return (                    
+        <div>            
+            <h3>Product Title: {title}</h3>
+            <h4>Price: {price}</h4>
+            <p>{isDiscount}</p>
+        </div>      |
+    );        (curly braces to access a variable)
+}               (it will generate empty <p> tag)
+
+- For remove empty <p> tags
+function Product({title, price = 1}) {
+ 
+    let isDiscount = 
+
+    return (                    
+        <div>            
+            <h3>Product Title: {title}</h3>
+            <h4>Price: {price}</h4>
+            price > 30000 ? <p>Discount : 5%</p> : null;
+        </div>      
+    );        
+} 
+
+- Use Conditonal Operator: 
+function Product({title, price = 1}) {
+ 
+    let isDiscount = 
+
+    return (                    
+        <div>            
+            <h3>Product Title: {title}</h3>
+            <h4>Price: {price}</h4>
+            {price > 30000 && <p>Discount: 5%</p>}
+        </div>      
+    );        
+} 
+
+-> Dynamic Component Styling: 
+    - if ew want to change the style of any component based on any condition.
+
+    - in JSX file if we write the CSS then attribute or styling must be in camleCase
+
+    font-size ---> fontSize
+
+    - use of ternary operator to make the styling based on conditions.
+
+
+-> Events in React:
+
+- Handling Click Events
+
+function doSomething() {
+    console.log("Hello");
+}
+
+export default function Button() {
+    return (
+        <div>
+            <button onClick={doSomething}>Click me!</button>
+        </div>
+    )
+}
+
+
+- Handling non-Click Events
+    - onMouseOver
+
+
+-> State in React :
+
+    - in React if one component render by any function then any change in the variable doesn't affect the component.
+        if we want the change in component with change of any variable then we need "States in React".
+
+    - The State is a built-in React object that is used to contain data or information about the component.
+        A component's state can change over time; whenever it changes, the component re-renders.
+
+-> Basically Now we define a State Object for each component and change in that Object (State) re-render the Object.
+    - component re-renders only when there is a change in States or it remains same.
+
+
+-> Hooks :
+
+    - Hooks were a new addition in React 16.8.
+
+    - They let you use state and other React feature without a class.
+
+    - aese functions jo hume components ke andr hi thodi jyada functionality dete hain.
+    -> Hooks can only call inside the component 
+
+1. useState()
+    - is a React Hook that lets you add a "state variable" to your component.
+                                                |
+                                     (the variable whos change 
+                                      re-render the React component)    
+
+
+        (updator function to update the state)
+                  |
+const [state, setState] = useState(initialState)    
+        |                               |
+  (curr state means      (initial value of state variable)
+our variable (count))
+
+
+-> Closure : lec-8 (64)
+    - is the concept which save the outer function value if any inner function uses that value.
+
+Exp: 
+    function outer() {
+        var b = 10;
+        function inner() {
+            var a = 20;
+
+            console.log(a+b);
+        }
+        return inner;
+    }
+
+    let inner = outer();
+    inner();
+       |
+(Here we are calling inner function,
+ Since outer function is not execute a single time,
+  And still we got correct value in console.
+   where closure helps us)
+
+
+
+Array in States : 
+
+-> delete element : filter 
+
+-> update or print : map
+
+
+
+-> React Component Design Pattern Principle :
+    - Lifting State Up 
+        - States always passes down to upwards in hierarchy. 
+        - Props always passes up to downwards in hierarchy.
+
+
+Component Types
+    2 types:
+        1) functional components 
+        2) class componens - not use now
+
+    now next we have 2 more types:
+        1) Logical components:
+            - smart component.
+            - use of state variable.
+        2) Presentational componens:
+            - dumb component.
+            - no state variable, just use for show or display the UI.
+
+    
+-> Function as Props
+    in JS, functions are 1st class object
+    This means they can be passed to a function as argument, returned from it & assigned to a variable.
+
+     
+
+-> Forms in React:
+
+in other frame-work or technologies forms has its internal states/ properties or actions.
+    but in react we can control on that
+
+The standard way with Forms is to use "Controlled Components".
+    So we make React state to be the "single source of truth" which is state,
+        means all we need to ask to state variable for the value in the component.
+
+In summery..
+        In HTML, form elements such as <input>, <textarea> and <select> typically maintain their own state and update it based on user input.
+        In React, mutable state is typically kept in the state property of componens, and only updated with setState().
+
+
+- Lables
+
+    In HTML, we write "for" in lables which matches with input field id.
+    In React, "for" is reserved keyword for loop, so we write "htmlFor". 
+
+    for/htmlFor matches with id.
+
+
+- useEffect() 
+    - when we want to add effect when a component renders then useEffect is used.
+    
